@@ -30,6 +30,112 @@ describe('obex.map()', () => {
          cc: 4,
       });
    });
+
+   it('supports using values in key-mapping function and vice versa', () => {
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).map(
+         (key, value) => value,
+         (value, key) => key
+      );
+      result.should.deep.equal({
+         1: 'a',
+         2: 'b',
+         3: 'c',
+      });
+   });
+});
+
+describe('obex.mapKeys()', () => {
+   it('returns the same object when called with identity functions', () => {
+      const identity = arg => arg;
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapKeys(identity);
+      result.should.deep.equal(obj);
+   });
+
+   it('maps keys', () => {
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapKeys(
+         key => key + key
+      );
+      result.should.deep.equal({
+         aa: 1,
+         bb: 2,
+         cc: 3,
+      });
+   });
+
+   it('supports using values in key-mapping function', () => {
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapKeys(
+         (key, value) => key + value
+      );
+      result.should.deep.equal({
+         a1: 1,
+         b2: 2,
+         c3: 3,
+      });
+   });
+});
+
+describe('obex.mapValues()', () => {
+   it('returns the same object when called with identity functions', () => {
+      const identity = arg => arg;
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapValues(identity);
+      result.should.deep.equal(obj);
+   });
+
+   it('maps values', () => {
+      const square = x => x * x;
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapValues(square);
+      result.should.deep.equal({
+         a: 1,
+         b: 4,
+         c: 9,
+      });
+   });
+
+   it('supports using keys in value-mapping function', () => {
+      const obj = {
+         a: 1,
+         b: 2,
+         c: 3,
+      };
+      const result = obex(obj).mapValues(
+         (value, key) => value + key
+      );
+      result.should.deep.equal({
+         a: '1a',
+         b: '2b',
+         c: '3c',
+      });
+   });
 });
 
 describe('obex.filter()', () => {

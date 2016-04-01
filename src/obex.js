@@ -6,6 +6,18 @@ export default function obex(obj) {
             [keyMapper(cur, obj[cur])]: valueMapper(obj[cur], cur),
          }), {}));
       },
+      mapKeys(keyMapper) {
+         return extend(Object.keys(obj).reduce((acc, cur) => ({
+            ...acc,
+            [keyMapper(cur, obj[cur])]: obj[cur],
+         }), {}));
+      },
+      mapValues(valueMapper) {
+         return extend(Object.keys(obj).reduce((acc, cur) => ({
+            ...acc,
+            [cur]: valueMapper(obj[cur], cur),
+         }), {}));
+      },
       filter(fn) {
          return extend(Object.keys(obj).reduce((acc, cur) => ({
             ...acc,
