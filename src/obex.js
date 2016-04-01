@@ -12,16 +12,33 @@ export default function obex(obj) {
             ...(fn(cur, obj[cur]) ? { [cur]: obj[cur] } : {}),
          }), {}));
       },
+      raw() {
+         return removeProperties(obj);
+      },
    };
 }
 
 function extend(obj) {
    const result = { ...obj };
    Object.defineProperty(result, 'map', {
+      configurable: true,
       value: obex(result).map,
    });
    Object.defineProperty(result, 'filter', {
+      configurable: true,
       value: obex(result).filter,
    });
+   Object.defineProperty(result, 'raw', {
+      configurable: true,
+      value: obex(result).raw,
+   });
+   return result;
+}
+
+function removeProperties(obj) {
+   const result = { ...obj };
+   delete result.map;
+   delete result.filter;
+   delete result.raw;
    return result;
 }

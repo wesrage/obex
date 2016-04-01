@@ -77,9 +77,31 @@ describe('obex chaining', () => {
 
    it('should not add enumerable properties during chaining', () => {
       const obj = {};
-      obex(obj)
+      const extendedObj = obex(obj)
          .filter(() => true)
          .map(key => key, value => value);
-      obj.should.deep.equal({});
+      extendedObj.should.deep.equal({});
+      for (const prop in extendedObj) {
+         prop.should.not.equal('filter');
+         prop.should.not.equal('map');
+         prop.should.not.equal('raw');
+      }
+   });
+});
+
+describe('obex.raw()', () => {
+   it('should remove added properties from extended objects', () => {
+      const obj = {};
+      const extendedObj = obex(obj)
+         .filter(() => true)
+         .map(key => key, value => value);
+      const rawObj = extendedObj.raw();
+
+      extendedObj.should.have.property('filter');
+      extendedObj.should.have.property('map');
+      extendedObj.should.have.property('raw');
+      rawObj.should.not.have.property('filter');
+      rawObj.should.not.have.property('map');
+      rawObj.should.not.have.property('raw');
    });
 });
