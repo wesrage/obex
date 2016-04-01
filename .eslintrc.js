@@ -1,0 +1,19 @@
+module.exports = {
+   ecmaFeatures: {
+      modules: true,
+   },
+   env: {
+      mocha: true,
+      node: true,
+   },
+   extends: 'airbnb',
+   parser: 'babel-eslint',
+   plugins: [
+      'babel',
+   ],
+   rules: {
+      'comma-dangle': [1, 'always-multiline'],
+      'indent': [2, 3],
+      'no-use-before-define': 0,
+   },
+};
