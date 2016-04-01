@@ -36,6 +36,14 @@ function extend(obj) {
       configurable: true,
       value: obex(result).map,
    });
+   Object.defineProperty(result, 'mapKeys', {
+      configurable: true,
+      value: obex(result).mapKeys,
+   });
+   Object.defineProperty(result, 'mapValues', {
+      configurable: true,
+      value: obex(result).mapValues,
+   });
    Object.defineProperty(result, 'filter', {
       configurable: true,
       value: obex(result).filter,
@@ -50,6 +58,8 @@ function extend(obj) {
 function removeProperties(obj) {
    const result = { ...obj };
    delete result.map;
+   delete result.mapKeys;
+   delete result.mapValues;
    delete result.filter;
    delete result.raw;
    return result;

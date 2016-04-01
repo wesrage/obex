@@ -17,10 +17,23 @@ function obex(obj) {
             return _extends({}, acc, _defineProperty({}, keyMapper(cur, obj[cur]), valueMapper(obj[cur], cur)));
          }, {}));
       },
+      mapKeys: function mapKeys(keyMapper) {
+         return extend(Object.keys(obj).reduce(function (acc, cur) {
+            return _extends({}, acc, _defineProperty({}, keyMapper(cur, obj[cur]), obj[cur]));
+         }, {}));
+      },
+      mapValues: function mapValues(valueMapper) {
+         return extend(Object.keys(obj).reduce(function (acc, cur) {
+            return _extends({}, acc, _defineProperty({}, cur, valueMapper(obj[cur], cur)));
+         }, {}));
+      },
       filter: function filter(fn) {
          return extend(Object.keys(obj).reduce(function (acc, cur) {
             return _extends({}, acc, fn(cur, obj[cur]) ? _defineProperty({}, cur, obj[cur]) : {});
          }, {}));
+      },
+      raw: function raw() {
+         return removeProperties(obj);
       }
    };
 }
@@ -28,10 +41,34 @@ function obex(obj) {
 function extend(obj) {
    var result = _extends({}, obj);
    Object.defineProperty(result, 'map', {
+      configurable: true,
       value: obex(result).map
    });
+   Object.defineProperty(result, 'mapKeys', {
+      configurable: true,
+      value: obex(result).mapKeys
+   });
+   Object.defineProperty(result, 'mapValues', {
+      configurable: true,
+      value: obex(result).mapValues
+   });
    Object.defineProperty(result, 'filter', {
+      configurable: true,
       value: obex(result).filter
    });
+   Object.defineProperty(result, 'raw', {
+      configurable: true,
+      value: obex(result).raw
+   });
+   return result;
+}
+
+function removeProperties(obj) {
+   var result = _extends({}, obj);
+   delete result.map;
+   delete result.mapKeys;
+   delete result.mapValues;
+   delete result.filter;
+   delete result.raw;
    return result;
 }
