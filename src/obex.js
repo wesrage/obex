@@ -1,66 +1,41 @@
 export default function obex(obj) {
+   const entryTransformer = entryFunction =>
+      extend(Object.keys(obj).reduce((acc, cur) => ({
+         ...acc,
+         ...entryFunction(cur),
+      }), {}));
    return {
-      map(keyMapper, valueMapper) {
-         return extend(Object.keys(obj).reduce((acc, cur) => ({
-            ...acc,
-            [keyMapper(cur, obj[cur])]: valueMapper(obj[cur], cur),
-         }), {}));
-      },
-      mapKeys(keyMapper) {
-         return extend(Object.keys(obj).reduce((acc, cur) => ({
-            ...acc,
-            [keyMapper(cur, obj[cur])]: obj[cur],
-         }), {}));
-      },
-      mapValues(valueMapper) {
-         return extend(Object.keys(obj).reduce((acc, cur) => ({
-            ...acc,
-            [cur]: valueMapper(obj[cur], cur),
-         }), {}));
-      },
-      filter(fn) {
-         return extend(Object.keys(obj).reduce((acc, cur) => ({
-            ...acc,
-            ...(fn(cur, obj[cur]) ? { [cur]: obj[cur] } : {}),
-         }), {}));
-      },
-      raw() {
-         return removeProperties(obj);
-      },
+      map: (keyMapper, valueMapper) => entryTransformer(key => ({
+         [keyMapper(key, obj[key])]: valueMapper(obj[key], key),
+      })),
+      mapKeys: keyMapper => entryTransformer(key => ({
+         [keyMapper(key, obj[key])]: obj[key],
+      })),
+      mapValues: valueMapper => entryTransformer(key => ({
+         [key]: valueMapper(obj[key], key),
+      })),
+      filter: testFunction => entryTransformer(key => ({
+         ...(testFunction(key, obj[key]) ? { [key]: obj[key] } : {}),
+      })),
+      raw: () => removeProperties(obj),
    };
 }
 
+const addedPropertyNames = Object.keys(obex({}));
+
 function extend(obj) {
    const result = { ...obj };
-   Object.defineProperty(result, 'map', {
-      configurable: true,
-      value: obex(result).map,
-   });
-   Object.defineProperty(result, 'mapKeys', {
-      configurable: true,
-      value: obex(result).mapKeys,
-   });
-   Object.defineProperty(result, 'mapValues', {
-      configurable: true,
-      value: obex(result).mapValues,
-   });
-   Object.defineProperty(result, 'filter', {
-      configurable: true,
-      value: obex(result).filter,
-   });
-   Object.defineProperty(result, 'raw', {
-      configurable: true,
-      value: obex(result).raw,
+   addedPropertyNames.forEach(propName => {
+      Object.defineProperty(result, propName, {
+         configurable: true,
+         value: obex(result)[propName],
+      });
    });
    return result;
 }
 
 function removeProperties(obj) {
    const result = { ...obj };
-   delete result.map;
-   delete result.mapKeys;
-   delete result.mapValues;
-   delete result.filter;
-   delete result.raw;
+   addedPropertyNames.forEach(propName => delete result[propName]);
    return result;
 }
