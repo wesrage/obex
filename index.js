@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
    value: true
@@ -11,26 +11,31 @@ exports.default = obex;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function obex(obj) {
+   var entryTransformer = function entryTransformer(entryFunction) {
+      return extend(Object.keys(obj).reduce(function (acc, cur) {
+         return _extends({}, acc, entryFunction(cur));
+      }, {}));
+   };
    return {
       map: function map(keyMapper, valueMapper) {
-         return extend(Object.keys(obj).reduce(function (acc, cur) {
-            return _extends({}, acc, _defineProperty({}, keyMapper(cur, obj[cur]), valueMapper(obj[cur], cur)));
-         }, {}));
+         return entryTransformer(function (key) {
+            return _defineProperty({}, keyMapper(key, obj[key]), valueMapper(obj[key], key));
+         });
       },
       mapKeys: function mapKeys(keyMapper) {
-         return extend(Object.keys(obj).reduce(function (acc, cur) {
-            return _extends({}, acc, _defineProperty({}, keyMapper(cur, obj[cur]), obj[cur]));
-         }, {}));
+         return entryTransformer(function (key) {
+            return _defineProperty({}, keyMapper(key, obj[key]), obj[key]);
+         });
       },
       mapValues: function mapValues(valueMapper) {
-         return extend(Object.keys(obj).reduce(function (acc, cur) {
-            return _extends({}, acc, _defineProperty({}, cur, valueMapper(obj[cur], cur)));
-         }, {}));
+         return entryTransformer(function (key) {
+            return _defineProperty({}, key, valueMapper(obj[key], key));
+         });
       },
-      filter: function filter(fn) {
-         return extend(Object.keys(obj).reduce(function (acc, cur) {
-            return _extends({}, acc, fn(cur, obj[cur]) ? _defineProperty({}, cur, obj[cur]) : {});
-         }, {}));
+      filter: function filter(testFunction) {
+         return entryTransformer(function (key) {
+            return _extends({}, testFunction(key, obj[key]) ? _defineProperty({}, key, obj[key]) : {});
+         });
       },
       raw: function raw() {
          return removeProperties(obj);
@@ -38,37 +43,23 @@ function obex(obj) {
    };
 }
 
+var addedPropertyNames = Object.keys(obex({}));
+
 function extend(obj) {
    var result = _extends({}, obj);
-   Object.defineProperty(result, 'map', {
-      configurable: true,
-      value: obex(result).map
-   });
-   Object.defineProperty(result, 'mapKeys', {
-      configurable: true,
-      value: obex(result).mapKeys
-   });
-   Object.defineProperty(result, 'mapValues', {
-      configurable: true,
-      value: obex(result).mapValues
-   });
-   Object.defineProperty(result, 'filter', {
-      configurable: true,
-      value: obex(result).filter
-   });
-   Object.defineProperty(result, 'raw', {
-      configurable: true,
-      value: obex(result).raw
+   addedPropertyNames.forEach(function (propName) {
+      Object.defineProperty(result, propName, {
+         configurable: true,
+         value: obex(result)[propName]
+      });
    });
    return result;
 }
 
 function removeProperties(obj) {
    var result = _extends({}, obj);
-   delete result.map;
-   delete result.mapKeys;
-   delete result.mapValues;
-   delete result.filter;
-   delete result.raw;
+   addedPropertyNames.forEach(function (propName) {
+      return delete result[propName];
+   });
    return result;
 }
