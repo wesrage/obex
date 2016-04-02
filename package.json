@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wesrage/obex.git"
+    "url": "https://github.com/wesrage/obex.git"
   },
   "keywords": [
     "JavaScript",
