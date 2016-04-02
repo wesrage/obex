@@ -1,7 +1,7 @@
 {
   "name": "obex",
-  "version": "1.0.0",
-  "description": "0.1.0",
+  "version": "1.0.1",
+  "description": "JavaScript object wrapper providing useful extension methods",
   "main": "index.js",
   "scripts": {
     "build": "babel src/obex.js -o index.js",
