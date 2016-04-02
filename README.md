@@ -8,7 +8,8 @@ Transform JavaScript objects.
 ## Usage
 ```javascript
 var obex = require('obex');
-var regularObject = { propertyName: value };
+
+var regularObject = { propertyName: 'value' };
 var transformableObject = obex(obj);
 ```
 
