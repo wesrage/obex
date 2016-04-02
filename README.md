@@ -76,7 +76,7 @@ obex({ a: 3, b: 6 }).mapKeys(function(key, value) {
 ### .mapValues
 mapValues(_valueMapper_)
 * _valueMapper_: function to map old values to new values.
- * Parameters: (_value_)
+ * Parameters: (_value_, [, _key_])
  * Return: replacement value for this entry.
 
 ```js
