@@ -37,6 +37,19 @@ function obex(obj) {
             return _extends({}, testFunction(key, obj[key]) ? _defineProperty({}, key, obj[key]) : {});
          });
       },
+      toArray: function toArray(entryMapper) {
+         return Object.keys(obj).map(function (key) {
+            return entryMapper(key, obj[key]);
+         });
+      },
+      keys: function keys() {
+         return Object.keys(obj);
+      },
+      values: function values() {
+         return Object.keys(obj).map(function (key) {
+            return obj[key];
+         });
+      },
       raw: function raw() {
          return removeProperties(obj);
       }
