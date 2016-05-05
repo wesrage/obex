@@ -17,6 +17,9 @@ export default function obex(obj) {
       filter: testFunction => entryTransformer(key => ({
          ...(testFunction(key, obj[key]) ? { [key]: obj[key] } : {}),
       })),
+      toArray: entryMapper => Object.keys(obj).map(key => entryMapper(key, obj[key])),
+      keys: () => Object.keys(obj),
+      values: () => Object.keys(obj).map(key => obj[key]),
       raw: () => removeProperties(obj),
    };
 }

@@ -10,7 +10,7 @@ Transform JavaScript objects.
 var obex = require('obex');
 
 var regularObject = { propertyName: 'value' };
-var transformableObject = obex(obj);
+var transformableObject = obex(regularObject);
 ```
 
 An `obex` object is just like a regular JavaScript object, but it can be transformed using methods like `filter` and `map` to make object manipulation simpler. These methods can be chained together because `obex` adds non-enumerable properties to the given raw JavaScript object.
@@ -61,12 +61,12 @@ obex({ a: 3, b: 6 }).map(
 
 ### .mapKeys
 mapKeys(_keyMapper_)
-* _keyMapper_: functon to map old keys to new keys.
+* _keyMapper_: function to map old keys to new keys.
  * Parameters: (_key_ [, _value_])
  * Return: replacement key for this entry.
 
 ```js
-// Example
+// Example:
 obex({ a: 3, b: 6 }).mapKeys(function(key, value) {
    return key + key + value;
 });
@@ -82,13 +82,48 @@ mapValues(_valueMapper_)
 ```js
 // Example:
 function square(x) { return x * x };
-obex({ a: 3, b: 6}).mapValues(square);
+obex({ a: 3, b: 6 }).mapValues(square);
 // { a: 9, b: 36 }
+```
+
+### .toArray
+toArray(_entryMapper_)
+* _entryMapper_: function to map key-value pairs to array elements,
+ * Parameters: (_key_, _value_)
+ * Return: array of elements mapped from key-value pairs
+
+```js
+// Example:
+obex({ a: 1, b: 2 }).toArray(function(key, value) {
+   return key + value;
+});
+// ['a1', 'b2']
+```
+
+### .keys
+keys()  
+Returns an array containing only the object's keys
+
+```js
+// Example:
+obex({ a: 1, b: 2 }).keys()
+// ['a', 'b']
+```
+
+### .values
+values()  
+Returns an array containing only the object's values
+
+```js
+// Example:
+obex({ a: 1, b: 2 }).values()
+// [1, 2]
 ```
 
 ### .raw
 raw()  
 Converts back to a plain old JavaScript object.
+
 ```js
 var a = obex({}).filter().map();
 var b = a.raw();
