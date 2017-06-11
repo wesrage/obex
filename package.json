@@ -23,6 +23,9 @@
     "url": "https://github.com/wesrage/obex/issues"
   },
   "homepage": "https://github.com/wesrage/obex#readme",
+  "files": [
+    "index.js"
+  ],
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
