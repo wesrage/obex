@@ -4,7 +4,7 @@ Transform JavaScript objects.
 
 * Map and filter objects as easily as arrays
 * Methods can be chained by default
-* 419 bytes gzipped
+* 417 bytes gzipped
 
 ## Installation
 `npm install --save obex`  
