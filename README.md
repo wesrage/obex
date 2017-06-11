@@ -2,8 +2,14 @@
 
 Transform JavaScript objects.
 
+* Map and filter objects as easily as arrays
+* Methods can be chained by default
+* 419 bytes gzipped
+
 ## Installation
-`npm install obex`
+`npm install --save obex`  
+or  
+`yarn add obex`
 
 ## Usage
 ```javascript
@@ -106,7 +112,7 @@ Returns an array containing only the object's keys
 
 ```js
 // Example:
-obex({ a: 1, b: 2 }).keys()
+obex({ a: 1, b: 2 }).keys();
 // ['a', 'b']
 ```
 
@@ -116,7 +122,7 @@ Returns an array containing only the object's values
 
 ```js
 // Example:
-obex({ a: 1, b: 2 }).values()
+obex({ a: 1, b: 2 }).values();
 // [1, 2]
 ```
 
