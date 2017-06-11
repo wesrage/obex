@@ -4,9 +4,11 @@
   "description": "JavaScript object wrapper providing useful extension methods",
   "main": "index.js",
   "scripts": {
-    "build": "uglifyjs --compress --mangle -o index.js -- src/obex.js",
+    "build": "npm run babel && npm run uglify",
     "precommit": "npm run build && git add index.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "babel": "babel src/obex.js -o index.js",
+    "uglify": "uglifyjs -c -m toplevel,reserved=[obex] -o index.js -- index.js"
   },
   "repository": {
     "type": "git",
