@@ -35,7 +35,6 @@ filter(_testFunction_)
  * Return: `true` to keep the entry, `false` otherwise.
 
 ```js
-// Example:
 obex({ a: 3, b: 6 })
    .filter(function(key, value) {
       return value < 5;
@@ -53,7 +52,6 @@ map(_keyMapper_, _valueMapper_)
  * Return: replacement value for this entry.
 
 ```js
-// Example:
 obex({ a: 3, b: 6 }).map(
    function(key) {
       return key + key;
@@ -72,7 +70,6 @@ mapKeys(_keyMapper_)
  * Return: replacement key for this entry.
 
 ```js
-// Example:
 obex({ a: 3, b: 6 }).mapKeys(function(key, value) {
    return key + key + value;
 });
@@ -86,7 +83,6 @@ mapValues(_valueMapper_)
  * Return: replacement value for this entry.
 
 ```js
-// Example:
 function square(x) { return x * x };
 obex({ a: 3, b: 6 }).mapValues(square);
 // { a: 9, b: 36 }
@@ -99,7 +95,6 @@ toArray(_entryMapper_)
  * Return: array of elements mapped from key-value pairs
 
 ```js
-// Example:
 obex({ a: 1, b: 2 }).toArray(function(key, value) {
    return key + value;
 });
@@ -111,7 +106,6 @@ keys()
 Returns an array containing only the object's keys
 
 ```js
-// Example:
 obex({ a: 1, b: 2 }).keys();
 // ['a', 'b']
 ```
@@ -121,7 +115,6 @@ values()
 Returns an array containing only the object's values
 
 ```js
-// Example:
 obex({ a: 1, b: 2 }).values();
 // [1, 2]
 ```
