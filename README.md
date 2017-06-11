@@ -26,13 +26,13 @@ An `obex` object is just like a regular JavaScript object, but it can be transfo
 ### obex
 obex(_object_)
 * _object_: plain old JavaScript object to become transformable using `obex` methods.
-* Return: `obex` object
+    * Return: `obex` object
 
 ### .filter
 filter(_testFunction_)
 * _testFunction_: function to test each key-value entry in the object.
- * Parameters: (_key_, _value_)
- * Return: `true` to keep the entry, `false` otherwise.
+    * Parameters: (_key_, _value_)
+    * Return: `true` to keep the entry, `false` otherwise.
 
 ```js
 obex({ a: 3, b: 6 })
@@ -45,11 +45,11 @@ obex({ a: 3, b: 6 })
 ### .map
 map(_keyMapper_, _valueMapper_)
 * _keyMapper_: function to map old keys to new keys.
- * Parameters: (_key_ [, _value_])
- * Return: replacement key for this entry.
+    * Parameters: (_key_ [, _value_])
+    * Return: replacement key for this entry.
 * _valueMapper_: function to map old values to new values.
- * Parameters: (_value_ [, _key_])
- * Return: replacement value for this entry.
+    * Parameters: (_value_ [, _key_])
+    * Return: replacement value for this entry.
 
 ```js
 obex({ a: 3, b: 6 }).map(
@@ -66,8 +66,8 @@ obex({ a: 3, b: 6 }).map(
 ### .mapKeys
 mapKeys(_keyMapper_)
 * _keyMapper_: function to map old keys to new keys.
- * Parameters: (_key_ [, _value_])
- * Return: replacement key for this entry.
+    * Parameters: (_key_ [, _value_])
+    * Return: replacement key for this entry.
 
 ```js
 obex({ a: 3, b: 6 }).mapKeys(function(key, value) {
@@ -79,8 +79,8 @@ obex({ a: 3, b: 6 }).mapKeys(function(key, value) {
 ### .mapValues
 mapValues(_valueMapper_)
 * _valueMapper_: function to map old values to new values.
- * Parameters: (_value_, [, _key_])
- * Return: replacement value for this entry.
+    * Parameters: (_value_, [, _key_])
+    * Return: replacement value for this entry.
 
 ```js
 function square(x) { return x * x };
@@ -91,8 +91,8 @@ obex({ a: 3, b: 6 }).mapValues(square);
 ### .toArray
 toArray(_entryMapper_)
 * _entryMapper_: function to map key-value pairs to array elements,
- * Parameters: (_key_, _value_)
- * Return: array of elements mapped from key-value pairs
+    * Parameters: (_key_, _value_)
+    * Return: array of elements mapped from key-value pairs
 
 ```js
 obex({ a: 1, b: 2 }).toArray(function(key, value) {
