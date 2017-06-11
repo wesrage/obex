@@ -1,9 +1,6 @@
 export default function obex(obj) {
    const entryTransformer = entryFunction =>
-      extend(Object.keys(obj).reduce((acc, cur) => ({
-         ...acc,
-         ...entryFunction(cur),
-      }), {}));
+      extend(Object.keys(obj).reduce((acc, cur) => Object.assign({}, acc, entryFunction(cur)), {}));
    return {
       map: (keyMapper, valueMapper) => entryTransformer(key => ({
          [keyMapper(key, obj[key])]: valueMapper(obj[key], key),
@@ -14,9 +11,7 @@ export default function obex(obj) {
       mapValues: valueMapper => entryTransformer(key => ({
          [key]: valueMapper(obj[key], key),
       })),
-      filter: testFunction => entryTransformer(key => ({
-         ...(testFunction(key, obj[key]) ? { [key]: obj[key] } : {}),
-      })),
+      filter: testFunction => entryTransformer(key => testFunction(key, obj[key]) ? { [key]: obj[key] } : {}),
       toArray: entryMapper => Object.keys(obj).map(key => entryMapper(key, obj[key])),
       keys: () => Object.keys(obj),
       values: () => Object.keys(obj).map(key => obj[key]),
@@ -27,7 +22,7 @@ export default function obex(obj) {
 const addedPropertyNames = Object.keys(obex({}));
 
 function extend(obj) {
-   const result = { ...obj };
+   const result = Object.assign({}, obj);
    addedPropertyNames.forEach(propName => {
       Object.defineProperty(result, propName, {
          configurable: true,
@@ -38,7 +33,7 @@ function extend(obj) {
 }
 
 function removeProperties(obj) {
-   const result = { ...obj };
+   const result = Object.assign({}, obj);
    addedPropertyNames.forEach(propName => delete result[propName]);
    return result;
 }
